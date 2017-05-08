@@ -3,8 +3,9 @@ var inquirer = require('inquirer');
 var blank = ('\n ===========================================') 
 var connection = mysql.createConnection({
 	host: 'localhost',
-	port: '3306',
-	password: '',
+	port: 3306,
+	user: 'root',
+	password: 'twoboys136',
 	database: 'Bamazon'
 });
 
@@ -26,7 +27,7 @@ function startShop() {
 	).then(function(answer) {
 		console.log(blank);
 		console.log('\nWelcome', answer.name, '\nThese are today\'s products...\n');
-		productsList(); 
+		itemList(); 
 	})
 }
 
@@ -56,7 +57,7 @@ function buyingPrompt() {
 		}
 	]).then(function(answer) {
 		connection.query('SELECT * FROM products WHERE id = ?', [answer.item], function(err, result) {
-			total = (result[0].price * answer.quantity).toFixed[2];
+			total = (result[0].price);
 			dept = result[0].department_name;
 			if (answer.quantity > result[0].stock_quantity) {
 				console.log('Insufficient quantity! Please shop again another time.');
@@ -73,13 +74,12 @@ function buyingPrompt() {
 	})
 
 	}
-
 	// end connection function
 	function endConnection() {
 		connection.end(function(err) {
 			if (err) throw err;
 		})
-	}
+	
 }
 
 
